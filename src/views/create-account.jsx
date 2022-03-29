@@ -10,7 +10,6 @@ import {
     Button,
     CardFooter,
     CardText,
-    Alert,
 } from 'reactstrap'
 import { FaArrowLeft, FaArrowRight, FaCheck } from 'react-icons/fa'
 import CreateAccountStepOne from '../components/create-account-step-one'
@@ -115,7 +114,7 @@ const CreateAccount = () => {
                                     Continue <FaArrowRight />
                                 </Button>
                             )}
-                            {step == 3 && (
+                            {step === 3 && (
                                 <Button color="success" onClick={handleSubmit}>
                                     Create Account <FaCheck />
                                 </Button>

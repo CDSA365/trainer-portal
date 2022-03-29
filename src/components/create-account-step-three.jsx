@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Form, FormGroup, Label, Input } from 'reactstrap'
+import { Form, FormGroup, Label, Input } from 'reactstrap'
 
 const CreateAccountStepThree = ({ handler, value }) => {
     return (

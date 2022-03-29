@@ -6,6 +6,7 @@ body {
     font-size: small;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #f1f5f9;
 }
 * {
     font-size: small;
@@ -22,4 +23,27 @@ code {
 
 .font-bold {
     font-weight: 700;
+}
+
+.text-sky {
+    color: #0ea5e9;
+}
+
+.sub-nav {
+    font-weight: 700;
+    border-left: 1px solid #e2e8f0;
+}
+
+.sub-nav:last-child {
+    border-right: 1px solid #e2e8f0;
+}
+
+.sub-nav-link {
+    border-bottom: 2px solid transparent;
+    color: #64748b;
+}
+
+.sub-nav-link:hover {
+    color: #0ea5e9 !important;
+    border-bottom-color: #0ea5e9;
 }
