@@ -22,7 +22,7 @@ const Header = () => {
         >
             <Row>
                 <Col>
-                    <Container>
+                    <Container fluid="lg">
                         <Navbar color="transparent" expand="md" dark>
                             <NavbarBrand href="/">reactstrap</NavbarBrand>
                             <NavbarToggler onClick={function noRefCheck() {}} />

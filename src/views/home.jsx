@@ -4,7 +4,7 @@ import ClassesGroup from '../components/classes-group'
 
 const Home = () => {
     return (
-        <Container>
+        <Container fluid="lg">
             <ClassesGroup />
         </Container>
     )

@@ -6,7 +6,7 @@ import Login from './views/login'
 import Dashboard from './layout/dashboard'
 import Home from './views/home'
 import ViewClass from './views/view-class'
-import Attendance from './views/attendance'
+import ViewAttendance from './views/view-attendance'
 
 function App() {
     const path = {
@@ -42,7 +42,7 @@ function App() {
                     <Route
                         exact
                         path={path.attendance}
-                        element={<Attendance />}
+                        element={<ViewAttendance />}
                     />
                 </Route>
             </Routes>

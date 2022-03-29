@@ -19,7 +19,7 @@ const SubHeader = () => {
         <Container fluid style={{ backgroundColor: '#ffffff' }}>
             <Row>
                 <Col>
-                    <Container>
+                    <Container fluid="lg">
                         <Navbar
                             color="transparent"
                             expand="md"

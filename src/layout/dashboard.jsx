@@ -13,7 +13,7 @@ const Dashboard = () => {
             </Row>
             <Row className="py-5">
                 <Col>
-                    <Container>
+                    <Container fluid="lg">
                         <Outlet />
                     </Container>
                 </Col>

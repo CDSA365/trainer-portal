@@ -48,7 +48,7 @@ const ViewClass = () => {
         }
     }
     return (
-        <Container>
+        <Container fluid="lg">
             <Row>
                 <Col xs={12} md={8}>
                     <Card body className="shadow">
