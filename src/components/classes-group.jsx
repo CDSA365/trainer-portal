@@ -1,23 +1,28 @@
 import axios from 'axios'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row } from 'reactstrap'
 import { config } from '../config/config'
+import { setClass } from '../redux/actions/actions'
 import Classes from './classes'
 
 const ClassesGroup = () => {
-    const { id } = useParams()
+    const user = useSelector((state) => state.user)
+    const { id } = user
     const [classes, setClasses] = useState([])
     const [scheduledClasses, setScheduledClasses] = useState([])
     const [progressClasses, setProgressClasses] = useState([])
     const [completedClasses, setCompletedClasses] = useState([])
+    const dispatch = useDispatch()
 
     const fetchClasses = () => {
         const url = config.api.getTrainerClasses + `/${id}`
         axios
             .get(url)
-            .then(({ data }) => setClasses(data))
+            .then(({ data }) =>
+                dispatch(setClass(data)).then(() => setClasses(data))
+            )
             .catch((err) => console.log(err))
     }
 
@@ -38,6 +43,7 @@ const ClassesGroup = () => {
             year: currentTime.year(),
             date: currentTime.format('YYYY-MM-DD'),
             start_time: currentTime.toISOString(),
+            salary: user.salary,
         }
         const udpateClassState = axios.put(classStatusUrl, classData)
         const createTimeLog = axios.post(logTimeUrl, logData)

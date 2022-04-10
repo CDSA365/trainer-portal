@@ -9,7 +9,6 @@ import {
 } from 'react-icons/fa'
 import { BiRefresh } from 'react-icons/bi'
 import {
-    Button,
     Card,
     CardBody,
     CardText,
@@ -22,6 +21,7 @@ import {
 } from 'reactstrap'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
+import Placeholder from './placeholder'
 
 const Classes = ({
     status,
@@ -60,7 +60,10 @@ const Classes = ({
                                     size={24}
                                     onClick={fetchClasses}
                                 />
-                                <Link to={`/dashboard/classes/view/${status}`}>
+                                <Link
+                                    to={`/dashboard/classes/view/${status}`}
+                                    replace={true}
+                                >
                                     <FaArrowRight
                                         size={16}
                                         style={{ cursor: 'pointer' }}
@@ -70,100 +73,104 @@ const Classes = ({
                         </Row>
                         <Row>
                             <ListGroup flush className="px-0 pt-3">
-                                {classes.slice(0, 5).map((cls, i) => (
-                                    <ListGroupItem
-                                        key={i}
-                                        className="py-3 d-flex"
-                                    >
-                                        <Col className="flex-grow-1">
-                                            <Link
-                                                to={`/dashboard/classes/view/${cls.slug}`}
-                                                state={{ cls: cls }}
-                                                style={{
-                                                    textDecoration: 'none',
-                                                    color: '#333',
-                                                }}
-                                            >
-                                                <ListGroupItemHeading
-                                                    title={cls.title}
+                                {classes.length > 0 ? (
+                                    classes.slice(0, 5).map((cls, i) => (
+                                        <ListGroupItem
+                                            key={i}
+                                            className="py-3 d-flex"
+                                        >
+                                            <Col className="flex-grow-1">
+                                                <Link
+                                                    to={`/dashboard/classes/view/${cls.slug}`}
+                                                    state={{ cls: cls }}
                                                     style={{
-                                                        whiteSpace: 'nowrap',
+                                                        textDecoration: 'none',
+                                                        color: '#333',
                                                     }}
                                                 >
-                                                    {cls.title.length > 34
-                                                        ? cls.title.substr(
-                                                              0,
-                                                              34
-                                                          ) + '...'
-                                                        : cls.title}
-                                                </ListGroupItemHeading>
-                                            </Link>
-                                            <Col className="d-md-flex gap-2">
-                                                <Col
-                                                    className="mb-0"
-                                                    style={{ color: '#a8a29e' }}
-                                                >
-                                                    <FaCalendar fill="#64748b" />{' '}
-                                                    {moment(
-                                                        cls.start_time
-                                                    ).format('LL')}
-                                                </Col>
-                                                <Col
-                                                    className="mb-0"
-                                                    style={{ color: '#a8a29e' }}
-                                                >
-                                                    <FaClock fill="#64748b" />{' '}
-                                                    {moment(
-                                                        cls.start_time
-                                                    ).format('LT') +
-                                                        ' - ' +
-                                                        moment(
-                                                            cls.end_time
-                                                        ).format('LT')}
+                                                    <ListGroupItemHeading
+                                                        title={cls.title}
+                                                        style={{
+                                                            whiteSpace:
+                                                                'nowrap',
+                                                        }}
+                                                    >
+                                                        {cls.title.length > 34
+                                                            ? cls.title.substr(
+                                                                  0,
+                                                                  34
+                                                              ) + '...'
+                                                            : cls.title}
+                                                    </ListGroupItemHeading>
+                                                </Link>
+                                                <Col className="d-md-flex gap-2">
+                                                    <Col
+                                                        className="mb-0"
+                                                        style={{
+                                                            color: '#a8a29e',
+                                                        }}
+                                                    >
+                                                        <FaCalendar fill="#64748b" />{' '}
+                                                        {moment(
+                                                            cls.start_time
+                                                        ).format('LL')}
+                                                    </Col>
+                                                    <Col
+                                                        className="mb-0"
+                                                        style={{
+                                                            color: '#a8a29e',
+                                                        }}
+                                                    >
+                                                        <FaClock fill="#64748b" />{' '}
+                                                        {moment(
+                                                            cls.start_time
+                                                        ).format('LT') +
+                                                            ' - ' +
+                                                            moment(
+                                                                cls.end_time
+                                                            ).format('LT')}
+                                                    </Col>
                                                 </Col>
                                             </Col>
-                                        </Col>
-                                        <Col
-                                            sm={2}
-                                            xs={2}
-                                            className="d-flex flex-column justify-content-center align-items-center gap-3"
-                                        >
-                                            {showStartBtn && (
-                                                <FaPlay
-                                                    fill="#06b6d4"
-                                                    type="button"
-                                                    size={20}
-                                                    onClick={() =>
-                                                        startClass(cls.id)
-                                                    }
-                                                />
-                                            )}
-                                            {showCompleteBtn && (
-                                                <FaStopCircle
-                                                    fill="#f43f5e"
-                                                    type="button"
-                                                    size={20}
-                                                    onClick={() =>
-                                                        endClass(cls.id)
-                                                    }
-                                                />
-                                            )}
-                                            {showDoneBtn && (
-                                                <FaCheck
-                                                    fill="#10b981"
-                                                    size={20}
-                                                />
-                                            )}
-                                        </Col>
-                                    </ListGroupItem>
-                                ))}
-                                {/* {classes.length > 5 && (
-                                    <ListGroupItem className="d-flex justify-content-right align-items-center">
-                                        <Button>
-                                            View all <FaArrowRight />
-                                        </Button>
-                                    </ListGroupItem>
-                                )} */}
+                                            <Col
+                                                sm={2}
+                                                xs={2}
+                                                className="d-flex flex-column justify-content-center align-items-center gap-3"
+                                            >
+                                                {showStartBtn && (
+                                                    <FaPlay
+                                                        fill="#06b6d4"
+                                                        type="button"
+                                                        size={20}
+                                                        onClick={() =>
+                                                            startClass(cls.id)
+                                                        }
+                                                    />
+                                                )}
+                                                {showCompleteBtn && (
+                                                    <FaStopCircle
+                                                        fill="#f43f5e"
+                                                        type="button"
+                                                        size={20}
+                                                        onClick={() =>
+                                                            endClass(cls.id)
+                                                        }
+                                                    />
+                                                )}
+                                                {showDoneBtn && (
+                                                    <FaCheck
+                                                        fill="#10b981"
+                                                        size={20}
+                                                    />
+                                                )}
+                                            </Col>
+                                        </ListGroupItem>
+                                    ))
+                                ) : (
+                                    <Placeholder
+                                        message={'No classes to list'}
+                                    />
+                                )}
                             </ListGroup>
                         </Row>
                     </Col>

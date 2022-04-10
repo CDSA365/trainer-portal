@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
     Col,
     Collapse,
@@ -12,8 +13,17 @@ import {
     NavLink,
     Row,
 } from 'reactstrap'
+import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa'
+import { setUser } from '../redux/actions/actions'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
+    const user = useSelector((state) => state.user)
+    const dispatch = useDispatch()
+
+    const signout = () => {
+        dispatch(setUser({}))
+    }
     return (
         <Container
             fluid
@@ -24,7 +34,9 @@ const Header = () => {
                 <Col>
                     <Container fluid="lg">
                         <Navbar color="transparent" expand="md" dark>
-                            <NavbarBrand href="/">reactstrap</NavbarBrand>
+                            <Link to="/dashboard" className="navbar-brand">
+                                CDSA365
+                            </Link>
                             <NavbarToggler onClick={function noRefCheck() {}} />
                             <Collapse navbar>
                                 <Nav className="me-auto" navbar>
@@ -39,7 +51,22 @@ const Header = () => {
                                         </NavLink>
                                     </NavItem>
                                 </Nav>
-                                <NavbarText>Simple Text</NavbarText>
+                                {user.isLoggedIn ? (
+                                    <NavbarText
+                                        className="text-white"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={signout}
+                                    >
+                                        <FaSignOutAlt size={20} />
+                                    </NavbarText>
+                                ) : (
+                                    <NavbarText
+                                        className="text-white"
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <FaSignInAlt size={20} />
+                                    </NavbarText>
+                                )}
                             </Collapse>
                         </Navbar>
                     </Container>

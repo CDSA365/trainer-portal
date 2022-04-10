@@ -6,8 +6,6 @@ import {
     Container,
     Nav,
     Navbar,
-    NavbarBrand,
-    NavbarText,
     NavbarToggler,
     NavItem,
     NavLink,
@@ -30,37 +28,39 @@ const SubHeader = () => {
                             <Collapse navbar>
                                 <Nav className="me-auto" navbar>
                                     <NavItem className="sub-nav">
-                                        <NavLink
-                                            href="/components/"
-                                            className="sub-nav-link px-3 py-4"
+                                        <Link
+                                            to="/dashboard/scheduled-classes"
+                                            style={{ textDecoration: 'none' }}
+                                            className="nav-link sub-nav-link px-3 py-4"
                                         >
                                             Scheduled Classes
-                                        </NavLink>
+                                        </Link>
                                     </NavItem>
                                     <NavItem className="sub-nav">
-                                        <NavLink
-                                            href="/components/"
-                                            className="sub-nav-link px-3 py-4"
+                                        <Link
+                                            to={`/dashboard/in-progress-classes`}
+                                            style={{ textDecoration: 'none' }}
+                                            className="nav-link sub-nav-link px-3 py-4"
                                         >
                                             Classes In Progress
-                                        </NavLink>
+                                        </Link>
                                     </NavItem>
                                     <NavItem className="sub-nav">
-                                        <NavLink
-                                            href="/components/"
-                                            className="sub-nav-link px-3 py-4"
+                                        <Link
+                                            to={`/dashboard/completed-classes`}
+                                            style={{ textDecoration: 'none' }}
+                                            className="nav-link sub-nav-link px-3 py-4"
                                         >
                                             Completed Classes
-                                        </NavLink>
+                                        </Link>
                                     </NavItem>
                                     <NavItem className="sub-nav">
                                         <Link
                                             to={`/dashboard/attendance/`}
                                             style={{ textDecoration: 'none' }}
+                                            className="nav-link sub-nav-link px-3 py-4"
                                         >
-                                            <NavLink className="sub-nav-link px-3 py-4">
-                                                Attendance
-                                            </NavLink>
+                                            Attendance
                                         </Link>
                                     </NavItem>
                                 </Nav>

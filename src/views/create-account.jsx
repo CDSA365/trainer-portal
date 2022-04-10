@@ -10,6 +10,7 @@ import {
     Button,
     CardFooter,
     CardText,
+    Alert,
 } from 'reactstrap'
 import { FaArrowLeft, FaArrowRight, FaCheck } from 'react-icons/fa'
 import CreateAccountStepOne from '../components/create-account-step-one'
@@ -23,19 +24,52 @@ import moment from 'moment-timezone'
 const CreateAccount = () => {
     const { state } = useLocation()
     const [step, setStep] = useState(1)
+    const [error, setError] = useState(null)
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
         first_name: state.first_name,
         last_name: state.last_name,
         email: state.email,
-        phone: '',
-        whatsapp: '',
-        dob: '',
-        gender: '',
     })
 
     const nextStep = () => {
-        setStep((step) => step + 1)
+        if (step === 1) {
+            if (
+                'phone' in formData &&
+                formData.phone.length &&
+                'whatsapp' in formData &&
+                formData.whatsapp.length &&
+                'dob' in formData &&
+                formData.dob.length &&
+                'gender' in formData &&
+                formData.gender !== null
+            ) {
+                if (error) setError(null)
+                setStep((step) => step + 1)
+            } else {
+                setError('All fields are mandatory')
+            }
+        } else if (step === 2) {
+            if (
+                'address_one' in formData &&
+                formData.address_one.length &&
+                'address_two' in formData &&
+                formData.address_two &&
+                'city' in formData &&
+                formData.city.length &&
+                'district' in formData &&
+                formData.district.length &&
+                'state' in formData &&
+                formData.state.length &&
+                'pincode' in formData &&
+                formData.pincode.length
+            ) {
+                if (error) setError(null)
+                setStep((step) => step + 1)
+            } else {
+                setError('All fields are mandatory')
+            }
+        }
     }
 
     const prevStep = () => {
@@ -47,14 +81,28 @@ const CreateAccount = () => {
     }
 
     const handleSubmit = () => {
-        const url = config.api.updateTrainer + `/${state.token}`
-        formData.joining_date = moment().format()
-        formData.status = 1
-        formData.country = 'India'
-        axios
-            .put(url, formData)
-            .then(() => navigate('/login', { replace: true }))
-            .catch((err) => console.log(err))
+        if (
+            'education' in formData &&
+            formData.education.length &&
+            'certificate_url' in formData &&
+            formData.certificate_url.length &&
+            'aadhar_number' in formData &&
+            formData.aadhar_number.length &&
+            'password' in formData &&
+            formData.password.length
+        ) {
+            if (error) setError(null)
+            const url = config.api.updateTrainer + `/${state.token}`
+            formData.joining_date = moment().format()
+            formData.status = 1
+            formData.country = 'India'
+            axios
+                .put(url, formData)
+                .then(() => navigate('/login', { replace: true }))
+                .catch((err) => console.log(err))
+        } else {
+            setError('All fields are mandatory')
+        }
     }
 
     const renderform = (step) => {
@@ -98,7 +146,10 @@ const CreateAccount = () => {
                                 <CardText>Create Account</CardText>
                             </CardTitle>
                         </CardHeader>
-                        <CardBody>{renderform(step)}</CardBody>
+                        <CardBody>
+                            {error && <Alert color="danger">{error}</Alert>}
+                            {renderform(step)}
+                        </CardBody>
                         <CardFooter
                             className={`d-flex justify-content-${
                                 step === 1 ? 'end' : 'between'

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { FaSignInAlt } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import {
     Alert,
@@ -18,11 +19,13 @@ import {
     Row,
 } from 'reactstrap'
 import { config } from '../config/config'
+import { setUser } from '../redux/actions/actions'
 
 const Login = () => {
     const [formData, setFormData] = useState({})
     const [error, setError] = useState([])
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const handleChange = (e) => {
         setFormData((state) => ({ ...state, [e.target.name]: e.target.value }))
@@ -33,9 +36,8 @@ const Login = () => {
             .post(config.api.login, formData)
             .then(({ data }) => {
                 if (error.length) setError([])
-                navigate(`/dashboard/${data.id}`, {
-                    replace: true,
-                    state: data,
+                dispatch(setUser({ ...data, isLoggedIn: true })).then(() => {
+                    navigate('/dashboard', { replace: true })
                 })
             })
             .catch((err) => {

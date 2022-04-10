@@ -38,7 +38,7 @@ const Attendance = ({ id }) => {
         const month = moment(selectedWeek).month() + 1
         const year = moment(selectedWeek).year()
         axios
-            .get(config.api.getAttendance + `/${id}/${week}/${month}/${year}`)
+            .get(config.api.getAttendance + `/${id}/${year}/${month}/${week}`)
             .then(({ data }) => {
                 setAttendance(data)
             })
