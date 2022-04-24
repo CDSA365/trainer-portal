@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import {
+    Alert,
     Badge,
     Button,
     Card,
@@ -19,10 +20,18 @@ import {
     FaRegClock,
 } from 'react-icons/fa'
 import moment from 'moment'
+import StudentsInClass from '../components/list-students-in-class'
+import SubmitRemark from '../components/submit-remark'
+import { config } from '../config/config'
+import axios from 'axios'
+import { useSelector } from 'react-redux'
 
 const ViewClass = () => {
+    const { id } = useSelector((state) => state.user)
     const { state } = useLocation()
-    const { cls } = state
+    const [cls, setCls] = useState(state.cls)
+    const [error, setError] = useState(null)
+
     const badgeColor = (progress_state) => {
         switch (progress_state) {
             case 'SCHEDULED':
@@ -47,11 +56,58 @@ const ViewClass = () => {
                 break
         }
     }
+
+    const fetchClassDetail = (class_id) => {
+        axios
+            .get(config.api.getClassDetails + `/${class_id}`)
+            .then(({ data }) => setCls(data))
+    }
+
+    const checkForRemarks = (class_id) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const url = config.api.getRemarks + `/${class_id}/${id}`
+                const { data } = await axios.get(url)
+                data.length ? resolve(true) : reject(false)
+            } catch (error) {
+                reject(false)
+            }
+        })
+    }
+
+    const endClass = (classId, endTime) => {
+        checkForRemarks(classId)
+            .then(() => {
+                if (error) setError(null)
+                const classStatusUrl = config.api.updateClass + `/${classId}`
+                const logTimeUrl =
+                    config.api.endTrainerTime + `/${id}/${classId}`
+                const classData = {
+                    progress_state: 'COMPLETED',
+                }
+                const logData = {
+                    end_time: moment().isAfter(moment(endTime))
+                        ? moment(endTime).toISOString()
+                        : moment().toISOString(),
+                }
+                const trainerLog = axios.put(logTimeUrl, logData)
+                const classUpdate = axios.put(classStatusUrl, classData)
+                const promises = [trainerLog, classUpdate]
+                Promise.allSettled(promises)
+                    .then((result) => fetchClassDetail(classId))
+                    .catch((err) => console.log(err))
+            })
+            .catch(() => {
+                setError('Please add remarks to end the class')
+            })
+    }
+
     return (
         <Container fluid="lg">
             <Row>
                 <Col xs={12} md={8}>
-                    <Card body className="shadow">
+                    {error && <Alert color="danger">{error}</Alert>}
+                    <Card body className="shadow-none mb-4">
                         <CardTitle
                             style={{ fontSize: '1.5em' }}
                             className="font-bold"
@@ -103,15 +159,26 @@ const ViewClass = () => {
                                 <Button
                                     color="warning"
                                     className="d-inline-flex align-items-center gap-3"
+                                    onClick={() =>
+                                        endClass(cls.id, cls.end_time)
+                                    }
                                 >
                                     END CLASS <FaPauseCircle />
                                 </Button>
                             )}
                         </Col>
                     </Card>
+                    <Card body className="shadow-none mb-4">
+                        <StudentsInClass
+                            id={cls.id}
+                            progress_state={cls.progress_state}
+                        />
+                    </Card>
                 </Col>
                 <Col xs={12} md={4}>
-                    <Card body className="shadow"></Card>
+                    <Card body className="shadow-none">
+                        <SubmitRemark class_id={cls.id} />
+                    </Card>
                 </Col>
             </Row>
         </Container>

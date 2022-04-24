@@ -35,7 +35,7 @@ const Classes = ({
     const showCompleteBtn = status === 'in-progress'
     const showDoneBtn = status === 'completed'
     return (
-        <Card className="shadow mb-4">
+        <Card className="shadow-none mb-4">
             <CardBody>
                 <Row>
                     <Col>
@@ -61,7 +61,7 @@ const Classes = ({
                                     onClick={fetchClasses}
                                 />
                                 <Link
-                                    to={`/dashboard/classes/view/${status}`}
+                                    to={`/dashboard/${status}-classes`}
                                     replace={true}
                                 >
                                     <FaArrowRight
@@ -93,6 +93,16 @@ const Classes = ({
                                                         style={{
                                                             whiteSpace:
                                                                 'nowrap',
+                                                            color:
+                                                                moment().isAfter(
+                                                                    moment(
+                                                                        cls.end_time
+                                                                    )
+                                                                ) &&
+                                                                cls.progress_state ===
+                                                                    'SCHEDULED'
+                                                                    ? '#ef4444'
+                                                                    : '#1f2937',
                                                         }}
                                                     >
                                                         {cls.title.length > 34
@@ -137,23 +147,32 @@ const Classes = ({
                                                 xs={2}
                                                 className="d-flex flex-column justify-content-center align-items-center gap-3"
                                             >
-                                                {showStartBtn && (
-                                                    <FaPlay
-                                                        fill="#06b6d4"
-                                                        type="button"
-                                                        size={20}
-                                                        onClick={() =>
-                                                            startClass(cls.id)
-                                                        }
-                                                    />
-                                                )}
+                                                {showStartBtn &&
+                                                    moment().isBefore(
+                                                        moment(cls.end_time)
+                                                    ) && (
+                                                        <FaPlay
+                                                            fill="#06b6d4"
+                                                            type="button"
+                                                            size={20}
+                                                            onClick={() =>
+                                                                startClass(
+                                                                    cls.id,
+                                                                    cls.end_time
+                                                                )
+                                                            }
+                                                        />
+                                                    )}
                                                 {showCompleteBtn && (
                                                     <FaStopCircle
                                                         fill="#f43f5e"
                                                         type="button"
                                                         size={20}
                                                         onClick={() =>
-                                                            endClass(cls.id)
+                                                            endClass(
+                                                                cls.id,
+                                                                cls.end_time
+                                                            )
                                                         }
                                                     />
                                                 )}

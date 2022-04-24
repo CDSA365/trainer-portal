@@ -1,10 +1,4 @@
-import {
-    SETCLASSES,
-    SETCOMPLETEDCLASSES,
-    SETPROGRESSCLASSES,
-    SETSCHEDULEDCLASSES,
-    SETUSER,
-} from '../types/types'
+import { SETCLASSES, SETUSER } from '../types/types'
 
 export const setUser = (data) => (dispatch) =>
     Promise.resolve().then(() => {

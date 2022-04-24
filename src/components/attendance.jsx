@@ -1,7 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import { Card, Col, Container, Input, Row, Table } from 'reactstrap'
+import { Col, Input, Row, Table } from 'reactstrap'
 import TimelineProgress from './progress-timeline'
 import { config } from '../config/config'
 

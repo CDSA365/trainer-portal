@@ -11,5 +11,10 @@ export const config = {
         createTrainerTime: BASE_URL + '/trainer/log-time/create',
         endTrainerTime: BASE_URL + '/trainer/log-time/end',
         getAttendance: BASE_URL + '/trainer/attendance',
+        getStudentsInClass: BASE_URL + '/classes/students',
+        addRemarks: BASE_URL + '/classes/remarks',
+        getRemarks: BASE_URL + '/classes/remarks',
+        markAttendance: BASE_URL + '/student/attendance',
+        getClassDetails: BASE_URL + '/class',
     },
 }

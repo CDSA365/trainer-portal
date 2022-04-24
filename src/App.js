@@ -38,6 +38,7 @@ function App() {
                 />
                 <Route exact path={path.login} element={<Login />} />
                 <Route element={<PrivateRoute />}>
+                    <Route exact path="/" element={<Home />} />
                     <Route exact path="/dashboard" element={<Home />} />
                     <Route
                         exact
