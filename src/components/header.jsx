@@ -40,7 +40,7 @@ const Header = () => {
                             <NavbarToggler onClick={function noRefCheck() {}} />
                             <Collapse navbar>
                                 <Nav className="me-auto" navbar>
-                                    <NavItem>
+                                    {/* <NavItem>
                                         <NavLink href="/components/">
                                             Components
                                         </NavLink>
@@ -49,7 +49,7 @@ const Header = () => {
                                         <NavLink href="https://github.com/reactstrap/reactstrap">
                                             GitHub
                                         </NavLink>
-                                    </NavItem>
+                                    </NavItem> */}
                                 </Nav>
                                 {user.isLoggedIn ? (
                                     <NavbarText
