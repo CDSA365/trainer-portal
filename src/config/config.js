@@ -16,5 +16,6 @@ export const config = {
         getRemarks: BASE_URL + '/classes/remarks',
         markAttendance: BASE_URL + '/student/attendance',
         getClassDetails: BASE_URL + '/class',
+        getAnnouncement: BASE_URL + '/announcement',
     },
 }
