@@ -132,6 +132,7 @@ const ClassesGroup = () => {
                             startClass={startClass}
                             endClass={endClass}
                             fetchClasses={fetchClasses}
+                            progressClasses={progressClasses}
                         />
                     </Col>
                     <Col md={4} sm={12}>

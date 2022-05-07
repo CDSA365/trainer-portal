@@ -27,7 +27,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 
 const ViewClass = () => {
-    const { id } = useSelector((state) => state.user)
+    const { id, salary } = useSelector((state) => state.user)
     const { state } = useLocation()
     const [cls, setCls] = useState(state.cls)
     const [error, setError] = useState(null)
@@ -75,6 +75,42 @@ const ViewClass = () => {
         })
     }
 
+    const startClass = (classId, end_time) => {
+        const currentTime = moment()
+        if (state.progressClasses.length) {
+            const message = `You have a class in progress. please complete the class to start a new class.`
+            setError(message)
+        } else if (currentTime.isAfter(moment(end_time))) {
+            const message = `The class you are trying to start cannot be started after the end time.`
+            setError(message)
+        } else {
+            if (error) setError(null)
+            const classStatusUrl = config.api.updateClass + `/${classId}`
+            const logTimeUrl = config.api.createTrainerTime
+            const classData = {
+                progress_state: 'IN PROGRESS',
+            }
+            const logData = {
+                trainer_id: id,
+                class_id: classId,
+                day_of_week: currentTime.format('dddd'),
+                day: currentTime.date(),
+                week: currentTime.isoWeek(),
+                month: currentTime.month() + 1,
+                year: currentTime.year(),
+                date: currentTime.format('YYYY-MM-DD'),
+                start_time: currentTime.toISOString(),
+                salary: salary,
+            }
+            const udpateClassState = axios.put(classStatusUrl, classData)
+            const createTimeLog = axios.post(logTimeUrl, logData)
+            const promises = [createTimeLog, udpateClassState]
+            Promise.allSettled(promises)
+                .then((result) => fetchClassDetail(classId))
+                .catch((err) => console.log(err))
+        }
+    }
+
     const endClass = (classId, endTime) => {
         checkForRemarks(classId)
             .then(() => {
@@ -94,7 +130,7 @@ const ViewClass = () => {
                 const classUpdate = axios.put(classStatusUrl, classData)
                 const promises = [trainerLog, classUpdate]
                 Promise.allSettled(promises)
-                    .then((result) => fetchClassDetail(classId))
+                    .then(() => fetchClassDetail(classId))
                     .catch((err) => console.log(err))
             })
             .catch(() => {
@@ -151,6 +187,9 @@ const ViewClass = () => {
                                 <Button
                                     color="success"
                                     className="d-inline-flex align-items-center gap-3"
+                                    onClick={() =>
+                                        startClass(cls.id, cls.end_time)
+                                    }
                                 >
                                     START CLASS <FaPlay />
                                 </Button>

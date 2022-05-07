@@ -30,6 +30,7 @@ const Classes = ({
     startClass,
     endClass,
     fetchClasses,
+    progressClasses = [],
 }) => {
     const showStartBtn = status === 'scheduled'
     const showCompleteBtn = status === 'in-progress'
@@ -82,7 +83,10 @@ const Classes = ({
                                             <Col className="flex-grow-1">
                                                 <Link
                                                     to={`/dashboard/classes/view/${cls.slug}`}
-                                                    state={{ cls: cls }}
+                                                    state={{
+                                                        cls,
+                                                        progressClasses,
+                                                    }}
                                                     style={{
                                                         textDecoration: 'none',
                                                         color: '#333',
