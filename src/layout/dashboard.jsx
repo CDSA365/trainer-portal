@@ -2,6 +2,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import { Col, Container, Row } from 'reactstrap'
 import Header from '../components/header'
+import Profile from '../components/profile'
 import SubHeader from '../components/sub-header'
 
 const Dashboard = () => {
@@ -10,6 +11,7 @@ const Dashboard = () => {
             <Row>
                 <Header />
                 <SubHeader />
+                <Profile />
             </Row>
             <Row className="py-5">
                 <Col>

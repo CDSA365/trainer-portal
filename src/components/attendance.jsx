@@ -33,10 +33,22 @@ const Attendance = ({ id }) => {
         }
     }
 
-    useEffect(() => {
+    const getWeekMonthYear = (selectedWeek) => {
         const week = moment(selectedWeek).isoWeek()
-        const month = moment(selectedWeek).month() + 1
-        const year = moment(selectedWeek).year()
+        const month =
+            moment(selectedWeek).month() === moment().month()
+                ? moment(selectedWeek).month() + 1
+                : moment().month() + 1
+        const year =
+            moment(selectedWeek).year() === moment().year()
+                ? moment(selectedWeek).year()
+                : moment().year()
+        return { week, month, year }
+    }
+
+    useEffect(() => {
+        console.log(selectedWeek)
+        const { week, month, year } = getWeekMonthYear(selectedWeek)
         axios
             .get(config.api.getAttendance + `/${id}/${year}/${month}/${week}`)
             .then(({ data }) => {
