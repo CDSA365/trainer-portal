@@ -29,6 +29,7 @@ import { useSelector } from 'react-redux'
 const ViewClass = () => {
     const { id, salary } = useSelector((state) => state.user)
     const { state } = useLocation()
+    console.log(state)
     const [cls, setCls] = useState(state.cls)
     const [error, setError] = useState(null)
 

@@ -41,7 +41,7 @@ const Classes = ({
                 <Row>
                     <Col>
                         <Row className="d-flex border-bottom pb-3 -mx-2">
-                            <Col sm={9} xs={9} className="flex-grow-1">
+                            <Col sm={6} xs={6} className="flex-grow-1">
                                 <CardTitle className="text-xl font-bold mb-0 text-sky">
                                     {`${classes.length} ${title}`}
                                 </CardTitle>
@@ -50,8 +50,8 @@ const Classes = ({
                                 </CardText>
                             </Col>
                             <Col
-                                sm={3}
-                                xs={3}
+                                sm={6}
+                                xs={6}
                                 className="d-flex justify-content-end gap-3 align-items-center"
                             >
                                 <BiRefresh
@@ -64,11 +64,9 @@ const Classes = ({
                                 <Link
                                     to={`/dashboard/${status}-classes`}
                                     replace={true}
+                                    className="btn btn-primary btn-xs d-flex"
                                 >
-                                    <FaArrowRight
-                                        size={16}
-                                        style={{ cursor: 'pointer' }}
-                                    />
+                                    <span>View all</span>
                                 </Link>
                             </Col>
                         </Row>
