@@ -2,13 +2,11 @@ import axios from 'axios'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { Alert, Button, Col, Row } from 'reactstrap'
+import { Alert, Col, Row } from 'reactstrap'
 import { config } from '../config/config'
 import { setClass } from '../redux/actions/actions'
 import Classes from './classes'
 import Placeholder from './placeholder'
-import Profile from './profile'
 
 const ClassesGroup = () => {
     const user = useSelector((state) => state.user)

@@ -1,7 +1,9 @@
+import axios from 'axios'
 import moment from 'moment-timezone'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { config } from '../config/config'
 import {
     Badge,
     Card,
@@ -18,29 +20,18 @@ import {
 } from 'reactstrap'
 
 const ListClasses = ({ status }) => {
-    const classesFromState = useSelector((state) => state.classes)
+    const { id } = useSelector((state) => state.user)
     const [searchKey, setSearchKey] = useState('')
     const [classes, setClasses] = useState([])
 
     useEffect(() => {
-        let cls = classesFromState
-        switch (status) {
-            case 'scheduled':
-                let sc = cls.filter((o) => o.progress_state === 'SCHEDULED')
-                setClasses(sc)
-                break
-            case 'in-progress':
-                let ip = cls.filter((o) => o.progress_state === 'IN PROGRESS')
-                setClasses(ip)
-                break
-            case 'completed':
-                let cp = cls.filter((o) => o.progress_state === 'COMPLETED')
-                setClasses(cp)
-                break
-            default:
-                break
-        }
-    }, [classesFromState, status])
+        ;(() => {
+            const classStatus = status.split('-').join(' ').toUpperCase()
+            const url = config.api.getTrainerClasses + `/${id}`
+            const fn = (x) => x.progress_state === classStatus
+            axios.get(url).then(({ data }) => setClasses(data.filter(fn)))
+        })()
+    }, [status])
 
     return (
         <Container fluid="lg">
@@ -82,7 +73,7 @@ const ListClasses = ({ status }) => {
                                                 state={{
                                                     cls,
                                                     progressClasses:
-                                                        classesFromState.filter(
+                                                        classes.filter(
                                                             (o) =>
                                                                 o.progress_state ===
                                                                 'IN PROGRESS'
@@ -102,7 +93,7 @@ const ListClasses = ({ status }) => {
                                                 state={{
                                                     cls,
                                                     progressClasses:
-                                                        classesFromState.filter(
+                                                        classes.filter(
                                                             (o) =>
                                                                 o.progress_state ===
                                                                 'IN PROGRESS'
